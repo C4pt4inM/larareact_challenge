@@ -22,6 +22,21 @@ class AttendanceController extends Controller
 
     public function getAllAttendance(){
         $attendance = Attendance::all();
-        return $attendance;
+        $jsonAtt = array();
+
+        foreach ($attendance as $key => $entry) {
+            $tempJs = [];
+            $tempJs["id"] = $entry->id;
+            $tempJs["employee"] = $entry->employee->user;
+            $tempJs["schedule"] = $entry->schedule;
+            $tempJs["check_in_time"] = $entry->check_in_time;
+            $tempJs["check_out_time"] = $entry->check_out_time;
+            $tempJs["hours"] = $entry->hours;
+            $tempJs["created_at"] = $entry->created_at;
+            $tempJs["updated_at"] = $entry->updated_at;
+
+            $jsonAtt[] = $tempJs;
+        }
+        return $jsonAtt;
     }
 }
